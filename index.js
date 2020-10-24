@@ -2,7 +2,7 @@ const lib = require('./src/utils.js')
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fetch = require("node-fetch");
-
+const api_key = require("./token");
 const listCommands = [
     "!tg @mention",
     "!ping @mention message",
@@ -135,4 +135,4 @@ class tg {
 
 
 
-client.login('NzY2MDA3NTU0NTUxMTg1NDE4.X4dGIA.OOFW6CHA71_JIJaemb9YLzc0NPs');
+client.login(api_key);
