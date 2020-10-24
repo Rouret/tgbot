@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const fetch = require("node-fetch");
 const api_key = require("./token");
+
 const listCommands = [
     "!`tg` @mention",
     "!`ping` @mention message",
@@ -69,7 +70,7 @@ client.on("message", (msg) => {
             else if (message_content.command == "joke") TG.joke(msg);
             else if (msg.content.match(regex)) TG.triso(msg);
             else if (message_content.command == "help") TG.help(msg);
-            else if (message_content.command == "test") TG.osu(msg);
+            else if (message_content.command == "test") TG.youtube(msg);
             else if (message_content.command == "faim") TG.faim(msg);
             else if (message_content.command == "music" && message_content.args[0] == "genre") TG.musicGenre(msg);
         }
@@ -110,7 +111,7 @@ class tg {
         msg.delete();
         fetch("https://www.blagues-api.fr/api/random", {
                 headers: {
-                    Authorization: `Bearer ${API_KEY_JOKE}`,
+                    Authorization: `Bearer ${api_key.joke}`,
                 },
             })
             .then((response) => response.json())
@@ -164,11 +165,20 @@ class tg {
         fetch("https://binaryjazz.us/wp-json/genrenator/v1/genre/", {})
             .then((response) => response.text())
             .then((data) => {
-                msg.channel.send("Voici un genre de music: " + data)
+                msg.channel.send("Voici un genre de music: " + data + "\n Voici ce que j'ai trouvé sur youtube:")
+                this.youtube(msg, data)
+            })
+
+    }
+    youtube(msg, word) {
+        msg.delete()
+        fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + word + "&type=video&key=" + api_key.youtube, {})
+            .then((response) => response.json())
+            .then((data) => {
+                msg.channel.send("https://www.youtube.com/watch?v=" + data.items[0].id.videoId)
             })
 
     }
 
 }
-
-client.login(api_key);
+client.login(api_key.discord);
