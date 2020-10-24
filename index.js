@@ -8,6 +8,8 @@ const listCommands = [
     "!`ping` @mention message",
     "!`joke`",
     "!`info`",
+    "!`faim`",
+    "!`music genre`",
 ];
 
 const memeList = [
@@ -26,6 +28,7 @@ const memeList = [
 ];
 const API_KEY_JOKE =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMjU5ODE3MzI4NDU4MzM0MjExIiwibGltaXQiOjEwMCwia2V5IjoiT0cxbFJ6U05SWTVIOVNGWnN6NWJkQ2Z0OUU3QVphbVFMZHc5cG5NQ0xpUUNzVmhOanEiLCJjcmVhdGVkX2F0IjoiMjAyMC0xMC0yMlQxOTo0NTozMSswMjowMCIsImlhdCI6MTYwMzM4ODczMX0.HplPyggkIIFOTgnisivNaf75825jQv7O2063Msa_0c0";
+
 const phraseList = [
     "tg",
     "TG",
@@ -50,24 +53,31 @@ client.on("ready", () => {
     console.log(`I'm on fire`);
 });
 client.on("message", (msg) => {
-    message_content = lib.parseContent(msg.content);
-    const TG = new tg();
-    if (
-        message_content.exec == "!" &&
-        message_content.command == "tg" &&
-        message_content.args.length == 1
-    ) TG.tg(msg);
-    else if (message_content.exec == "!" && message_content.command == "info") TG.info(msg);
-    else if (
-        message_content.exec == "!" &&
-        message_content.command == "ping" &&
-        message_content.args.length > 1
-    ) TG.ping(msg, message_content);
-    else if (message_content.exec == "!" && message_content.command == "joke") TG.joke(msg);
-    else if (msg.content.match(regex)) TG.triso(msg);
-    else if (message_content.exec == "!" && message_content.command == "help") TG.help(msg);
-    else if (message_content.exec == "!" && message_content.command == "test") TG.test(msg);
-    TG.event_message();
+    try {
+        message_content = lib.parseContent(msg.content);
+        const TG = new tg();
+        if (message_content.exec == "!") {
+            if (
+                message_content.command == "tg" &&
+                message_content.args.length == 1
+            ) TG.tg(msg);
+            else if (message_content.exec == "!" && message_content.command == "info") TG.info(msg);
+            else if (
+                message_content.command == "ping" &&
+                message_content.args.length > 1
+            ) TG.ping(msg, message_content);
+            else if (message_content.command == "joke") TG.joke(msg);
+            else if (msg.content.match(regex)) TG.triso(msg);
+            else if (message_content.command == "help") TG.help(msg);
+            else if (message_content.command == "test") TG.osu(msg);
+            else if (message_content.command == "faim") TG.faim(msg);
+            else if (message_content.command == "music" && message_content.args[0] == "genre") TG.musicGenre(msg);
+        }
+
+        TG.event_message();
+    } catch (err) {
+
+    }
 });
 
 class tg {
@@ -140,6 +150,25 @@ class tg {
             msg.channel.send(memeList[lib.getRandom(0, memeList.length - 1)]);
         }
     }
+    faim(msg) {
+        msg.delete()
+        fetch("https://foodish-api.herokuapp.com/api", {})
+            .then((response) => response.json())
+            .then((data) => {
+                msg.channel.send(data.image);
+            });
+    }
+    musicGenre(msg) {
+
+        msg.delete()
+        fetch("https://binaryjazz.us/wp-json/genrenator/v1/genre/", {})
+            .then((response) => response.text())
+            .then((data) => {
+                msg.channel.send("Voici un genre de music: " + data)
+            })
+
+    }
+
 }
 
 client.login(api_key);
