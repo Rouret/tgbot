@@ -4,10 +4,10 @@ const client = new Discord.Client();
 const fetch = require("node-fetch");
 const api_key = require("./token");
 const listCommands = [
-    "!tg @mention",
-    "!ping @mention message",
-    "!joke",
-    "!info"
+    "!`tg` @mention",
+    "!`ping` @mention message",
+    "!`joke`",
+    "!`info`"
 ]
 
 const memeList = [
@@ -46,7 +46,7 @@ const regex = /(21)/g;
 
 client.on('ready', () => {
     client.user.setActivity("!help");
-    console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`I'm on fire`);
 });
 client.on('message', msg => {
     message_content = lib.parseContent(msg.content)
@@ -82,6 +82,11 @@ client.on('message', msg => {
         message_content.command == "help"
     ) {
         TG.help(msg)
+    } else if (
+        message_content.exec == "!" &&
+        message_content.command == "test"
+    ) {
+        TG.test(msg)
     }
     TG.event_message()
 });
@@ -122,7 +127,14 @@ class tg {
         msg.channel.send("https://tenor.com/bmYc4.gif");
     }
     help(msg) {
-        msg.channel.send(listCommands.join("\n").replace(/g,/))
+        const exampleEmbed = new Discord.MessageEmbed()
+            .setColor('orange')
+            .setTitle("Besoin d'aide la ziz ?")
+            .setURL('https://pornhub.com/')
+            .setAuthor('Tg bot', 'https://sayingimages.com/wp-content/uploads/i-needs-help-help-meme.jpg', '')
+            .setThumbnail('https://sayingimages.com/wp-content/uploads/i-needs-help-help-meme.jpg')
+            .addFields({ name: 'Voila pour toi bb', value: listCommands.join("\n").replace(/g,/) }, )
+        msg.channel.send(exampleEmbed)
     }
     event_message(msg) {
         if (lib.getRandom(0, 100) == 21) {
@@ -132,7 +144,5 @@ class tg {
         }
     }
 }
-
-
 
 client.login(api_key);
