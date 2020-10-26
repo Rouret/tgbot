@@ -76,7 +76,9 @@ client.on("message", (msg) => {
             else if (message_content.command == "music" && message_content.args[0] == "genre") TG.musicGenre(msg);
             else if (message_content.command == "osu") TG.osu(msg);
         }
-        if (msg.content.match(regex_21)) TG.triso();
+        if (msg.content.match(regex_21)) {
+            TG.triso(msg)
+        };
         if (msg.content.match(regex_allo)) {
             msg.channel.send("ferme la");
             setTimeout(function() {
