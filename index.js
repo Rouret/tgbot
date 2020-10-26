@@ -79,6 +79,9 @@ client.on("message", (msg) => {
                 msg.delete()
                 msg.channel.send("Salope")
 
+            } else if (message_content.command == "speak") {
+                msg.delete()
+                msg.channel.send(message_content.args.join().replace(/,/g, " "));
             }
         }
         if (msg.content.match(regex_21)) {
