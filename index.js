@@ -46,7 +46,49 @@ const trooooll = [
     "tg stp",
     "Allo oui ?",
 ];
-
+const emoji = {
+    a: '🇦',
+    b: '🇧',
+    c: '🇨',
+    d: '🇩',
+    e: '🇪',
+    f: '🇫',
+    g: '🇬',
+    h: '🇭',
+    i: '🇮',
+    j: '🇯',
+    k: '🇰',
+    l: '🇱',
+    m: '🇲',
+    n: '🇳',
+    o: '🇴',
+    p: '🇵',
+    q: '🇶',
+    r: '🇷',
+    s: '🇸',
+    t: '🇹',
+    u: '🇺',
+    v: '🇻',
+    w: '🇼',
+    x: '🇽',
+    y: '🇾',
+    z: '🇿',
+    0: '0⃣',
+    1: '1⃣',
+    2: '2⃣',
+    3: '3⃣',
+    4: '4⃣',
+    5: '5⃣',
+    6: '6⃣',
+    7: '7⃣',
+    8: '8⃣',
+    9: '9⃣',
+    10: '🔟',
+    '#': '#⃣',
+    '*': '*⃣',
+    '!': '❗',
+    '?': '❓',
+};
 const regex_21 = /(21)/g;
 const regex_allo = /(allo)/g;
 const regex_lol = /(lol)/g;
@@ -57,6 +99,7 @@ client.on("ready", () => {
     console.log(`I'm on fire`);
 });
 client.on("message", (msg) => {
+
     try {
         message_content = lib.parseContent(msg.content);
         const TG = new tg();
@@ -73,16 +116,15 @@ client.on("message", (msg) => {
             else if (message_content.command == "joke") TG.joke(msg);
             else if (message_content.command == "help") TG.help(msg);
             else if (message_content.command == "faim") TG.faim(msg);
-            else if (message_content.command == "music" && message_content.args[0] == "genre") TG.musicGenre(msg);
+            else if (message_content.command == "test") {
+                channel.messages.fetch(message_content.args[0]).react("👍");
+                // msg.react(emoji.f).then(msg.react(emoji.d)).then(msg.react(emoji.p))
+            } else if (message_content.command == "music" && message_content.args[0] == "genre") TG.musicGenre(msg);
             else if (message_content.command == "osu") TG.osu(msg);
             else if (message_content.command == "s") {
                 msg.delete()
                 msg.channel.send("Salope")
-
-            } else if (message_content.command == "speak") {
-                msg.delete()
-                msg.channel.send(message_content.args.join().replace(/,/g, " "));
-            }
+            } else if (message_content.command == "speak") TG.speak(msg)
         }
         if (msg.content.match(regex_21)) {
             TG.triso(msg)
@@ -143,6 +185,8 @@ class tg {
             });
     }
     triso(msg) {
+        msg.react("2️⃣")
+        msg.react("1️⃣")
         msg.channel.send("https://tenor.com/bmYc4.gif");
     }
     help(msg) {
@@ -169,6 +213,9 @@ class tg {
             msg.delete();
             msg.channel.send(phraseList[lib.getRandom(0, phraseList.length - 1)]);
             msg.channel.send(memeList[lib.getRandom(0, memeList.length - 1)]);
+        }
+        if (lib.getRandom(0, 100) == 50) {
+
         }
     }
     faim(msg) {
@@ -200,6 +247,10 @@ class tg {
     }
     osu(msg) {
         msg.channel.send("https://osu.ppy.sh/beatmapsets/" + lib.getRandom(2432570, 2581647))
+    }
+    speak(msg) {
+        msg.delete()
+        msg.channel.send(message_content.args.join().replace(/,/g, " "));
     }
 }
 client.login(api_key.discord);
