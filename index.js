@@ -47,7 +47,10 @@ const trooooll = [
     "Allo oui ?",
 ];
 
-const regex = /(21)/g;
+const regex_21 = /(21)/g;
+const regex_allo = /(allo)/g;
+const regex_lol = /(lol)/g;
+const regex_qui = /^qui*/g;
 
 client.on("ready", () => {
     client.user.setActivity("!help");
@@ -68,14 +71,21 @@ client.on("message", (msg) => {
                 message_content.args.length > 1
             ) TG.ping(msg, message_content);
             else if (message_content.command == "joke") TG.joke(msg);
-            else if (msg.content.match(regex)) TG.triso(msg);
             else if (message_content.command == "help") TG.help(msg);
-            else if (message_content.command == "test") TG.youtube(msg);
             else if (message_content.command == "faim") TG.faim(msg);
             else if (message_content.command == "music" && message_content.args[0] == "genre") TG.musicGenre(msg);
+            else if (message_content.command == "osu") TG.osu(msg);
         }
-
-        TG.event_message();
+        if (msg.content.match(regex_21)) tg.triso();
+        if (msg.content.match(regex_allo)) {
+            msg.channel.send("ferme la");
+            setTimeout(function() {
+                msg.channel.send("J'suis en game la");
+            }, 2000);
+        }
+        if (msg.content.match(regex_lol)) msg.channel.send("Moi moi");
+        if (msg.content.match(regex_qui)) msg.channel.send("Qui passe");
+        TG.event_message(msg);
     } catch (err) {
 
     }
@@ -177,8 +187,9 @@ class tg {
             .then((data) => {
                 msg.channel.send("https://www.youtube.com/watch?v=" + data.items[0].id.videoId)
             })
-
     }
-
+    osu(msg) {
+        msg.channel.send("https://osu.ppy.sh/beatmapsets/" + lib.getRandom(2432570, 2581647))
+    }
 }
 client.login(api_key.discord);
