@@ -75,6 +75,7 @@ client.on("message", (msg) => {
             else if (message_content.command == "faim") TG.faim(msg);
             else if (message_content.command == "music" && message_content.args[0] == "genre") TG.musicGenre(msg);
             else if (message_content.command == "osu") TG.osu(msg);
+            else if (message_content.command == "s") msg.channel.send("Salope");
         }
         if (msg.content.match(regex_21)) {
             TG.triso(msg)
