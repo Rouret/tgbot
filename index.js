@@ -58,17 +58,11 @@ client.on('message', message => {
     if (!command) return;
 
     if (command.args && !args.length) {
-        let reply = `You didn't provide any arguments, ${message.author}!`;
-
-        if (command.usage) {
-            reply += `\nThe proper usage would be: \`${config.prefix}${command.name} ${command.usage}\``;
-        }
-
-        return message.channel.send(reply);
+        return;
     }
 
     if (command.guildOnly && message.channel.type !== 'text') {
-        return message.replay('I can\'t execute the command inside DMS!');
+        return;
     }
 
     if (!cooldowns.has(command.name)) {
@@ -87,7 +81,7 @@ client.on('message', message => {
 
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
-            return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command. `);
+            return message.reply("Woa arrete de spam la ziz");
         }
 
         timestamps.set(message.author.id, now);
@@ -97,7 +91,7 @@ client.on('message', message => {
         command.execute(client, api, config, message, args);
     } catch (error) {
         console.error(error);
-        message.channel.send('WOAOAOAOOAAOOAOAAO NOOOONNN une erreurv <@259817328458334211> aide moi ');
+        message.channel.send('WOAOAOAOOAAOOAOAAO NOOOONNN une erreur <@259817328458334211> aide moi ');
     }
 });
 
