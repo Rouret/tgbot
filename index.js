@@ -2,7 +2,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const config = require('./config.json');
-const chalk = require('chalk');
 const api = ""
     // create a new discord client
 const client = new Discord.Client();
@@ -50,12 +49,13 @@ client.on('raw', async event => {
 
 client.on('message', message => {
 
-    if (message.content.match(/(21)/g)) {
-        message.react("2️⃣")
-        message.react("1️⃣")
-        message.channel.send("https://tenor.com/bmYc4.gif");
-    };
-
+    if (message.mentions.members.array().length == 0) {
+        if (message.content.match(/(21)/g)) {
+            message.react("2️⃣")
+            message.react("1️⃣")
+            message.channel.send("https://tenor.com/bmYc4.gif");
+        }
+    }
 
     const args = message.content.slice(config.prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
@@ -96,11 +96,15 @@ client.on('message', message => {
         setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
     }
     try {
+
         command.execute(client, api, config, message, args);
+
+
     } catch (error) {
         console.error(error);
         message.channel.send('WOAOAOAOOAAOOAOAAO NOOOONNN une erreur <@259817328458334211> aide moi ');
     }
+
 });
 
 // login to Discord with your app's token
