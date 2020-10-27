@@ -92,7 +92,7 @@ const emoji = {
 const regex_21 = /(21)/g;
 const regex_allo = /(allo)/g;
 const regex_lol = /(lol)/g;
-const regex_qui = /^qui*/g;
+const regex_qui = /^qui/g;
 
 client.on("ready", () => {
     client.user.setActivity("!help");
