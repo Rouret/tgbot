@@ -1,256 +1,105 @@
-const lib = require("./src/utils.js");
-const Discord = require("discord.js");
+// require the discord.js module
+const Discord = require('discord.js');
+const fs = require('fs');
+const config = require('./config.json');
+const chalk = require('chalk');
+const api = ""
+    // create a new discord client
 const client = new Discord.Client();
-const fetch = require("node-fetch");
-const api_key = require("./token");
+const cooldowns = new Discord.Collection();
+client.commands = new Discord.Collection();
+const commandFlies = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-const listCommands = [
-    "!`tg` @mention",
-    "!`ping` @mention message",
-    "!`joke`",
-    "!`info`",
-    "!`faim`",
-    "!`music genre`",
-];
+for (const file of commandFlies) {
+    const command = require(`./commands/${file}`);
 
-const memeList = [
-    "https://tenor.com/bidgs.gif",
-    "https://tenor.com/be7NY.gif",
-    "https://tenor.com/3Lul.gif",
-    "https://tenor.com/ZE5b.gif",
-    "https://tenor.com/Ai7Y.gif",
-    "https://tenor.com/bghWl.gif",
-    "https://tenor.com/boYtg.gif",
-    "https://tenor.com/8a4K.gif",
-    "https://tenor.com/vhPp.gif",
-    "https://tenor.com/bjLL2.gif",
-    "https://tenor.com/oY3a.gif",
-    "https://tenor.com/pcXA.gif",
-];
-const API_KEY_JOKE =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMjU5ODE3MzI4NDU4MzM0MjExIiwibGltaXQiOjEwMCwia2V5IjoiT0cxbFJ6U05SWTVIOVNGWnN6NWJkQ2Z0OUU3QVphbVFMZHc5cG5NQ0xpUUNzVmhOanEiLCJjcmVhdGVkX2F0IjoiMjAyMC0xMC0yMlQxOTo0NTozMSswMjowMCIsImlhdCI6MTYwMzM4ODczMX0.HplPyggkIIFOTgnisivNaf75825jQv7O2063Msa_0c0";
-
-const phraseList = [
-    "tg",
-    "TG",
-    "Ferme la",
-    "STP tg",
-    "MAIS FERME LA",
-    "Allez tg",
-];
-const trooooll = [
-    "salope va !",
-    "mon petit",
-    "cries mon nom",
-    "oui",
-    "tg stp",
-    "Allo oui ?",
-];
-const emoji = {
-    a: '🇦',
-    b: '🇧',
-    c: '🇨',
-    d: '🇩',
-    e: '🇪',
-    f: '🇫',
-    g: '🇬',
-    h: '🇭',
-    i: '🇮',
-    j: '🇯',
-    k: '🇰',
-    l: '🇱',
-    m: '🇲',
-    n: '🇳',
-    o: '🇴',
-    p: '🇵',
-    q: '🇶',
-    r: '🇷',
-    s: '🇸',
-    t: '🇹',
-    u: '🇺',
-    v: '🇻',
-    w: '🇼',
-    x: '🇽',
-    y: '🇾',
-    z: '🇿',
-    0: '0⃣',
-    1: '1⃣',
-    2: '2⃣',
-    3: '3⃣',
-    4: '4⃣',
-    5: '5⃣',
-    6: '6⃣',
-    7: '7⃣',
-    8: '8⃣',
-    9: '9⃣',
-    10: '🔟',
-    '#': '#⃣',
-    '*': '*⃣',
-    '!': '❗',
-    '?': '❓',
-};
-const regex_21 = /(21)/g;
-const regex_allo = /(allo)/g;
-const regex_lol = /(lol)/g;
-const regex_qui = /^qui/g;
-
-client.on("ready", () => {
-    client.user.setActivity("!help");
-    console.log(`I'm on fire`);
-});
-client.on("message", (msg) => {
-
-    try {
-        message_content = lib.parseContent(msg.content);
-        const TG = new tg();
-        if (message_content.exec == "!") {
-            if (
-                message_content.command == "tg" &&
-                message_content.args.length == 1
-            ) TG.tg(msg);
-            else if (message_content.exec == "!" && message_content.command == "info") TG.info(msg);
-            else if (
-                message_content.command == "ping" &&
-                message_content.args.length > 1
-            ) TG.ping(msg, message_content);
-            else if (message_content.command == "joke") TG.joke(msg);
-            else if (message_content.command == "help") TG.help(msg);
-            else if (message_content.command == "faim") TG.faim(msg);
-            else if (message_content.command == "test") {
-                channel.messages.fetch(message_content.args[0]).react("👍");
-                // msg.react(emoji.f).then(msg.react(emoji.d)).then(msg.react(emoji.p))
-            } else if (message_content.command == "music" && message_content.args[0] == "genre") TG.musicGenre(msg);
-            else if (message_content.command == "osu") TG.osu(msg);
-            else if (message_content.command == "s") {
-                msg.delete()
-                msg.channel.send("Salope")
-            } else if (message_content.command == "speak") TG.speak(msg)
-        }
-        if (msg.content.match(regex_21)) {
-            TG.triso(msg)
-        };
-        if (msg.content.match(regex_allo)) {
-            msg.channel.send("ferme la");
-            setTimeout(function() {
-                msg.channel.send("J'suis en game la");
-            }, 2000);
-        }
-        if (msg.content.match(regex_lol)) msg.channel.send("Moi moi");
-        if (msg.content.match(regex_qui)) msg.channel.send("Qui passe");
-        TG.event_message(msg);
-    } catch (err) {
-
-    }
-});
-
-class tg {
-    tg(msg) {
-        msg.delete();
-        msg.channel.send(
-            phraseList[lib.getRandom(0, phraseList.length - 1)] +
-            " " +
-            message_content.args[0]
-        );
-        msg.channel.send(memeList[lib.getRandom(0, memeList.length - 1)]);
-    }
-    info(msg) {
-        msg.delete();
-        msg.channel.send("Idée de <@!259817328458334211>, bot codé en 15 minutes");
-    }
-    ping(msg, message_content) {
-        msg.delete();
-        let person = msg.mentions.users.first().id;
-        message_content.args[0] = "";
-        client.users.cache
-            .get(person)
-            .send(message_content.args.join().replace(/,/g, " "));
-        msg.channel.send(
-            "Ouallala un message privée a été envoyé," +
-            trooooll[lib.getRandom(0, trooooll.length - 1)]
-        );
-    }
-    joke(msg) {
-        msg.delete();
-        fetch("https://www.blagues-api.fr/api/random", {
-                headers: {
-                    Authorization: `Bearer ${api_key.joke}`,
-                },
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                msg.channel.send(data.joke);
-                setTimeout(function() {
-                    msg.channel.send(data.answer);
-                }, 5000);
-            });
-    }
-    triso(msg) {
-        msg.react("2️⃣")
-        msg.react("1️⃣")
-        msg.channel.send("https://tenor.com/bmYc4.gif");
-    }
-    help(msg) {
-        const exampleEmbed = new Discord.MessageEmbed()
-            .setColor("orange")
-            .setTitle("Besoin d'aide la ziz ?")
-            .setURL("https://pornhub.com/")
-            .setAuthor(
-                "Tg bot",
-                "https://sayingimages.com/wp-content/uploads/i-needs-help-help-meme.jpg",
-                ""
-            )
-            .setThumbnail(
-                "https://sayingimages.com/wp-content/uploads/i-needs-help-help-meme.jpg"
-            )
-            .addFields({
-                name: "Voila pour toi bb",
-                value: listCommands.join("\n").replace(/g,/),
-            });
-        msg.channel.send(exampleEmbed);
-    }
-    event_message(msg) {
-        if (lib.getRandom(0, 100) == 21) {
-            msg.delete();
-            msg.channel.send(phraseList[lib.getRandom(0, phraseList.length - 1)]);
-            msg.channel.send(memeList[lib.getRandom(0, memeList.length - 1)]);
-        }
-        if (lib.getRandom(0, 100) == 50) {
-
-        }
-    }
-    faim(msg) {
-        msg.delete()
-        fetch("https://foodish-api.herokuapp.com/api", {})
-            .then((response) => response.json())
-            .then((data) => {
-                msg.channel.send(data.image);
-            });
-    }
-    musicGenre(msg) {
-
-        msg.delete()
-        fetch("https://binaryjazz.us/wp-json/genrenator/v1/genre/", {})
-            .then((response) => response.text())
-            .then((data) => {
-                msg.channel.send("Voici un genre de music: " + data + "\n Voici ce que j'ai trouvé sur youtube:")
-                this.youtube(msg, data)
-            })
-
-    }
-    youtube(msg, word) {
-        msg.delete()
-        fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + word + "&type=video&key=" + api_key.youtube, {})
-            .then((response) => response.json())
-            .then((data) => {
-                msg.channel.send("https://www.youtube.com/watch?v=" + data.items[0].id.videoId)
-            })
-    }
-    osu(msg) {
-        msg.channel.send("https://osu.ppy.sh/beatmapsets/" + lib.getRandom(2432570, 2581647))
-    }
-    speak(msg) {
-        msg.delete()
-        msg.channel.send(message_content.args.join().replace(/,/g, " "));
-    }
+    // set a new item in the Collection
+    // with the key as the command name and the value as the exported value
+    client.commands.set(command.name, command);
 }
-client.login(api_key.discord);
+
+// when the client is ready, run this code
+// this event will trigger whenever your bot:
+// - finishes logging in
+// - reconnects after disconnecting
+client.on('ready', () => {
+    console.log("I'm on fire!");
+});
+
+const events = {
+    MESSAGE_REACTION_ADD: 'messageReactionAdd',
+    MESSAGE_REACTION_REMOVE: 'messageReactionRemove',
+};
+
+client.on('raw', async event => {
+    if (!events.hasOwnProperty(event.t)) return;
+
+    const { d: data } = event;
+    const user = client.users.get(data.user_id);
+    const channel = client.channels.get(data.channel_id) || await user.createDM();
+
+    if (channel.messages.has(data.message_id)) return;
+
+    const message = await channel.messages.fetch(data.message_id);
+    const emojiKey = data.emoji.id || data.emoji.name;
+    const reaction = message.reactions.get(emojiKey) || message.reactions.add(data);
+
+    client.emit(events[event.t], reaction, user);
+    if (message.reactions.size === 1) message.reactions.delete(emojiKey);
+});
+
+client.on('message', message => {
+    const args = message.content.slice(config.prefix.length).split(/ +/);
+    const commandName = args.shift().toLowerCase();
+
+    const command = client.commands.get(commandName) ||
+        client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+    if (!command) return;
+
+    if (command.args && !args.length) {
+        let reply = `You didn't provide any arguments, ${message.author}!`;
+
+        if (command.usage) {
+            reply += `\nThe proper usage would be: \`${config.prefix}${command.name} ${command.usage}\``;
+        }
+
+        return message.channel.send(reply);
+    }
+
+    if (command.guildOnly && message.channel.type !== 'text') {
+        return message.replay('I can\'t execute the command inside DMS!');
+    }
+
+    if (!cooldowns.has(command.name)) {
+        cooldowns.set(command.name, new Discord.Collection());
+    }
+
+    const now = Date.now();
+    const timestamps = cooldowns.get(command.name);
+    const cooldownAmount = (command.cooldown || 3) * 1000;
+
+    if (!timestamps.has(message.author.id)) {
+        timestamps.set(message.author.id, now);
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    } else {
+        const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+        if (now < expirationTime) {
+            const timeLeft = (expirationTime - now) / 1000;
+            return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command. `);
+        }
+
+        timestamps.set(message.author.id, now);
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    }
+    try {
+        command.execute(client, api, config, message, args);
+    } catch (error) {
+        console.error(error);
+        message.channel.send('WOAOAOAOOAAOOAOAAO NOOOONNN une erreurv <@259817328458334211> aide moi ');
+    }
+});
+
+// login to Discord with your app's token
+client.login(config.token);
