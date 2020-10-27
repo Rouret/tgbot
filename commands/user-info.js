@@ -1,7 +1,8 @@
 module.exports = {
     name: 'user-info',
-    description: 'user information',
+    aliases: ['ui', 'tamere'],
+    description: 'La taille de ton cu ma jolie',
     execute(client, api, config, message, args) {
-        message.channel.send(`Your username: ${message.author.username}\nYour ID: ${message.author.id}`);
+        message.channel.send("Une grosse merde");
     },
 };
