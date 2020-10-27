@@ -23,6 +23,7 @@
         "hoek": "^5.0.3",
         "node-fetch": "^2.6.1",
         "node-opus": "^0.2.7",
+        "picsum-photos": "^3.0.3",
         "random-org": "^0.1.5",
         "raven": "^0.10.0",
         "request": "^2.87.0",
