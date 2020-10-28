@@ -48,7 +48,7 @@ client.on('raw', async event => {
 });
 
 client.on('message', message => {
-
+    if (message.content[0] != config.prefix) return;
     if (message.mentions.members.array().length == 0) {
         if (message.content.match(/(21)/g)) {
             message.react("2️⃣")
