@@ -89,7 +89,7 @@ client.on('message', message => {
 
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
-            return message.reply("Woa arrete de spam la ziz");
+            return message.reply("Woa arrete de spam la ziz, tu pourras dans " + timeLeft);
         }
 
         timestamps.set(message.author.id, now);

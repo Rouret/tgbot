@@ -25,6 +25,8 @@
         "hoek": "^5.0.3",
         "node-fetch": "^2.6.1",
         "node-opus": "^0.2.7",
+        "node-postgres": "^0.6.2",
+        "pg": "^8.4.2",
         "picsum-photos": "^3.0.3",
         "random-org": "^0.1.5",
         "raven": "^0.10.0",
