@@ -11,7 +11,7 @@ pgClient.connect();
 const total = `SELECT count(*) as total FROM data`;
 
 module.exports = {
-    name: 'ipp',
+    name: 'ip',
     aliases: ['int', 'internet'],
     description: 'Te donnes l\'avance de la recolte des noms de domain',
     execute(client, api, config, message, args) {
