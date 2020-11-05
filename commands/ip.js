@@ -11,7 +11,7 @@ pgClient.connect();
 const total = `SELECT count(*) as total FROM data`;
 
 module.exports = {
-    name: 'ip',
+    name: 'ipp',
     aliases: ['int', 'internet'],
     description: 'Te donnes l\'avance de la recolte des noms de domain',
     execute(client, api, config, message, args) {
@@ -68,7 +68,9 @@ module.exports = {
                         response.predict =
                             "*Demain:*`" + predict_tomo + "`\n" +
                             "*Semaine prochaine*`" + predict_week + "`"
-
+                        end_day = ((TOTAL_IP - current) / day).toFixed(2)
+                        if (end_day > (365 * 2)) response.end = (end_day / 365).toFixed(2) + " years"
+                        else response.end = end_day + " days"
                         response.total = ((current / TOTAL_IP) * 100).toFixed(5) + " %"
                         message.channel.send({
                             embed: {
@@ -89,6 +91,10 @@ module.exports = {
                                     {
                                         name: "% des @ip disponibles sur internet",
                                         value: response.total
+                                    },
+                                    {
+                                        name: "Fin dans:",
+                                        value: response.end
                                     }
                                 ],
                                 timestamp: new Date(),
