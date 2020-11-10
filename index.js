@@ -48,7 +48,6 @@ client.on('raw', async event => {
 });
 
 client.on('message', message => {
-    if (message.content[0] != config.prefix) return;
     if (message.mentions.members.array().length == 0) {
         if (message.content.match(/(21)/g)) {
             message.react("2️⃣")
@@ -56,6 +55,8 @@ client.on('message', message => {
             message.channel.send("https://tenor.com/bmYc4.gif");
         }
     }
+    if (message.content[0] != config.prefix) return;
+
 
     const args = message.content.slice(config.prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
