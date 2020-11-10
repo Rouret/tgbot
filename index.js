@@ -56,8 +56,6 @@ client.on('message', message => {
         }
     }
     if (message.content[0] != config.prefix) return;
-
-
     const args = message.content.slice(config.prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
 

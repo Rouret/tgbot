@@ -4,22 +4,38 @@ function random() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function createTeam() {
+function createTeam(nbTeam, nbPerson) {
+    for (let k = 0; k < nbTeam; k++) {
+        // var temp = []
+        // for (let i = 0; i < nbPerson; i++) {
+        //     let index
+        //     let value
+        //     while (value === undefined) {
+        //         index = random()
+        //         value = participants[index]
+        //     }
+        //     temp.push(participants[index])
+        //     delete participants[index]
+        // }
+        teams.push(run(participants, nbPerson))
+    }
+}
+
+function run(data, n) {
     var temp = []
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < n; i++) {
         let index
         let value
         while (value === undefined) {
             index = random()
-            value = participants[index]
+            value = data[index]
         }
-
-        temp.push(participants[index])
-        delete participants[index]
+        temp.push(data[index])
+        delete data[index]
     }
-    teams.push(temp)
+    return temp
 }
-
+var TEAMS_NAME = []
 var participants = []
 var teams = []
 module.exports = {
@@ -27,11 +43,36 @@ module.exports = {
     aliases: ['lol'],
     description: 'Pour créer des équipes',
     execute(client, api, config, message, args) {
-        message.delete()
-        participants = ["Lucas", "Tom", "Baptiste", "Thibault"]
+
+        // message.delete()
+        //VARIABLES
+        const nbTeam = args[0]
+        const nbPerson = args[1]
+        var names;
         teams = []
-        createTeam()
-        createTeam()
+        TEAMS_NAME = ["Boomer", "Skype", "HubPorn", "PHP", "Chocolatine", "Mousquetaires", "Brothers", "Brazzers", "Covid-19", "Malphite", "WinRAR"]
+        var needNames = nbTeam <= TEAMS_NAME.length
+        participants = args.splice(2)
+
+        //VERIF
+        if (nbTeam * nbPerson > participants.length) {
+            message.channel.send(`Heu alors petit cours connard: ${nbTeam} x ${nbPerson} < ${participants.length} donc c'est impossible boomer`)
+            return
+        } else if (nbTeam * nbPerson < participants.length) {
+            message.channel.send(`Heu alors petit cours connard: ${nbTeam} x ${nbPerson} > ${participants.length} donc c'est impossible boomer`)
+            return
+        }
+        //CREATION DEQUIPE
+        createTeam(nbTeam, nbPerson)
+            //AFFICHAGE
+        var rendu = []
+
+        if (needNames) teams_names = run(TEAMS_NAME, nbTeam)
+
+        for (let index = 0; index < teams.length; index++) {
+            rendu.push({ name: "Equipe " + (needNames ? teams_names[index] : index + 1), value: teams[index].join(", ") })
+        }
+        //MESSAGE
         message.channel.send({
             embed: {
                 color: 3447003,
@@ -40,15 +81,7 @@ module.exports = {
                     icon_url: client.user.avatarURL()
                 },
                 title: "Les équipes",
-                fields: [{
-                        name: "Equipe 1",
-                        value: teams[0].join(" et ")
-                    },
-                    {
-                        name: "Equipe 2",
-                        value: teams[1].join(" et ")
-                    }
-                ],
+                fields: rendu,
                 timestamp: new Date(),
                 footer: {
                     icon_url: client.user.avatarURL(),
