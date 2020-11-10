@@ -25,7 +25,7 @@ var teams = []
 module.exports = {
     name: 'team',
     aliases: ['lol'],
-    description: 'Pour te faire regretter tes pâtes',
+    description: 'Pour créer des équipes',
     execute(client, api, config, message, args) {
         message.delete()
         participants = ["Lucas", "Tom", "Baptiste", "Thibault"]
@@ -39,7 +39,7 @@ module.exports = {
                     name: client.user.username,
                     icon_url: client.user.avatarURL()
                 },
-                title: "Les équipe",
+                title: "Les équipes",
                 fields: [{
                         name: "Equipe 1",
                         value: teams[0].join(" et ")
