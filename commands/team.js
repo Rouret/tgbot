@@ -41,9 +41,12 @@ var teams = []
 module.exports = {
     name: 'team',
     aliases: ['lol'],
-    description: 'Pour créer des équipes',
+    description: "```!team (Nombre d'équipes) (Nombre de personnes par équipe) Participant1 Participant2 ... ```",
     execute(client, api, config, message, args) {
-
+        if (args.length <= 4) {
+            message.channel.send("La syntaxe est :" + this.description)
+            return
+        }
         // message.delete()
         //VARIABLES
         const nbTeam = args[0]
