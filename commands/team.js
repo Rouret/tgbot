@@ -6,17 +6,6 @@ function random() {
 
 function createTeam(nbTeam, nbPerson) {
     for (let k = 0; k < nbTeam; k++) {
-        // var temp = []
-        // for (let i = 0; i < nbPerson; i++) {
-        //     let index
-        //     let value
-        //     while (value === undefined) {
-        //         index = random()
-        //         value = participants[index]
-        //     }
-        //     temp.push(participants[index])
-        //     delete participants[index]
-        // }
         teams.push(run(participants, nbPerson))
     }
 }
