@@ -3,7 +3,9 @@ module.exports = {
     name: 'tg',
     aliases: ['chut', 'arretelaaaheuu'],
     description: 'Ferme la',
+    theme: "fun",
     execute(client, api, config, message, args) {
+
         const memeList = [
             "https://tenor.com/bidgs.gif",
             "https://tenor.com/be7NY.gif",

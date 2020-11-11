@@ -1,14 +1,35 @@
 const { prefix } = require('../config.json');
 const Discord = require('discord.js');
+
+function toUpper(string) {
+    return string[0].toUpperCase() + string.slice(1)
+}
+
+function commandSyntaxe(string) {
+    return "``" + string + "``"
+}
 module.exports = {
     name: 'help',
     description: 'List all of my commands or info about a specific command',
     aliases: ['h'],
     usage: '[command name]',
     cooldown: 5,
+    theme: "user",
     execute(client, api, config, message, args) {
         const data = [];
         const { commands } = message.client;
+        var all = []
+        commands.map(command => {
+            if (all.find(theme => theme.name == toUpper(command.theme)) === undefined) {
+                all.push({
+                    name: toUpper(command.theme),
+                    value: commandSyntaxe(command.name)
+                })
+            } else {
+                const index = all.findIndex(theme => theme.name == toUpper(command.theme))
+                all[index].value += " " + commandSyntaxe(command.name)
+            }
+        })
         if (!args.length) {
             return message.channel.send({
                 embed: {
@@ -18,13 +39,7 @@ module.exports = {
                         icon_url: client.user.avatarURL()
                     },
                     title: "Besoin d'aide la ziz ? fait `!help COMMANDE`",
-                    fields: [{
-                        name: "Voila pour toi bb",
-                        value: commands.map(command => {
-                            if (command.admin && !message.member.roles.cache.find(r => r.name == "Admin")) return false
-                            return command.name
-                        }).join('\n')
-                    }],
+                    fields: all,
                     timestamp: new Date(),
                     footer: {
                         icon_url: client.user.avatarURL(),

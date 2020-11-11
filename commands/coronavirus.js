@@ -3,6 +3,7 @@ module.exports = {
     name: 'coronavirus',
     aliases: ['corona', 'virus'],
     description: 'Pour te faire regretter tes pâtes',
+    theme: "other",
     execute(client, api, config, message, args) {
         message.delete()
         fetch("https://coronavirusapi-france.now.sh/FranceLiveGlobalData", {})

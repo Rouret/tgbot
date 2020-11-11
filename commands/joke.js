@@ -3,6 +3,7 @@ module.exports = {
     name: 'joke',
     aliases: ['blague', 'basyfaitmoirire'],
     description: 'Rigole putain',
+    theme: "fun",
     execute(client, api, config, message, args) {
         message.delete()
         fetch("https://www.blagues-api.fr/api/random", {

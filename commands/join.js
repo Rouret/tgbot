@@ -4,6 +4,7 @@ module.exports = {
     name: 'join',
     aliases: ['j'],
     description: 'oups',
+    theme: "fun",
     async execute(client, api, config, message, args) {
         message.delete()
         console.log(args)

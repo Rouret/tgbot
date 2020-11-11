@@ -3,6 +3,7 @@ module.exports = {
     name: 'faim',
     aliases: ['food', 'toutdanslegosier'],
     description: 'Pour te faire regretter tes pâtes',
+    theme: "other",
     execute(client, api, config, message, args) {
         message.delete()
         fetch("https://foodish-api.herokuapp.com/api", {})

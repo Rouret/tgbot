@@ -2,6 +2,7 @@ module.exports = {
     name: 'avatar',
     aliases: ['icon', 'logo'],
     description: 'Te donnes ta pp mon chou',
+    theme: "user",
     execute(client, api, config, message, args) {
 
         if (!message.mentions.users.size) {

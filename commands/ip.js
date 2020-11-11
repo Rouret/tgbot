@@ -14,6 +14,7 @@ module.exports = {
     name: 'ip',
     aliases: ['int', 'internet'],
     description: 'Te donnes l\'avance de la recolte des noms de domain',
+    theme: "project",
     execute(client, api, config, message, args) {
         message.delete()
         const response = {

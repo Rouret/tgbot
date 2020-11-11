@@ -8,8 +8,8 @@ const client = new Discord.Client();
 const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
 const commandFlies = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-const DEV_MODE = true;
-const PREFIX = DEV_MODE ? config.prefix_dev : prefix
+const DEV_MODE = false;
+const PREFIX = DEV_MODE ? config.prefix_dev : config.prefix
     //prefix_dev
 for (const file of commandFlies) {
     //Store dans client.commands l'ensemble des commane 

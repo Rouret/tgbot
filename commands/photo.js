@@ -3,6 +3,7 @@ module.exports = {
     name: 'photo',
     aliases: ['picture', 'image', "woacbo"],
     description: "Pour faire rever, ou des fonds d'ecrab",
+    theme: "other",
     async execute(client, api, config, message, args) {
         const image = await Picsum.random()
         message.delete()
