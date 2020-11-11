@@ -1,7 +1,7 @@
 const { prefix } = require('../config.json');
 const Discord = require('discord.js');
 module.exports = {
-    name: 'hhelp',
+    name: 'help',
     description: 'List all of my commands or info about a specific command',
     aliases: ['h'],
     usage: '[command name]',
@@ -9,26 +9,29 @@ module.exports = {
     execute(client, api, config, message, args) {
         const data = [];
         const { commands } = message.client;
-
         if (!args.length) {
-            const exampleEmbed = new Discord.MessageEmbed()
-                .setColor("orange")
-                .setTitle("Besoin d'aide la ziz ? fait `!help COMMANDE`")
-                .setURL("https://pornhub.com/")
-                .setAuthor(
-                    "Tg bot",
-                    "https://sayingimages.com/wp-content/uploads/i-needs-help-help-meme.jpg",
-                    ""
-                )
-                .setThumbnail(
-                    "https://sayingimages.com/wp-content/uploads/i-needs-help-help-meme.jpg"
-                )
-                .addFields({
-                    name: "Voila pour toi bb",
-                    value: commands.map(command => command.name).join('\n'),
-                });
-
-            return message.channel.send(exampleEmbed)
+            return message.channel.send({
+                embed: {
+                    color: "orange",
+                    author: {
+                        name: client.user.username,
+                        icon_url: client.user.avatarURL()
+                    },
+                    title: "Besoin d'aide la ziz ? fait `!help COMMANDE`",
+                    fields: [{
+                        name: "Voila pour toi bb",
+                        value: commands.map(command => {
+                            if (command.admin && !message.member.roles.cache.find(r => r.name == "Admin")) return false
+                            return command.name
+                        }).join('\n')
+                    }],
+                    timestamp: new Date(),
+                    footer: {
+                        icon_url: client.user.avatarURL(),
+                        text: "TG bot"
+                    }
+                }
+            });
         }
 
         const name = args[0].toLowerCase();

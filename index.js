@@ -43,15 +43,13 @@ client.on('message', message => {
     //Va chercher les info de la commande
     const command = client.commands.get(commandName) ||
         client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-    console.log(command)
     if (!command) return;
-    // if (!message.member.roles.cache.find(r => r.name == "Admin")) return
+    //si la commande a besoin d'etre admin, il faut le role Admin
+    if (command.admin && !message.member.roles.cache.find(r => r.name == "Admin")) return
     if (command.args && !args.length) {
         return;
     }
-    if (command.guildOnly && message.channel.type !== 'text') {
-        return;
-    }
+    if (command.guildOnly && message.channel.type !== 'text') return;
     if (!cooldowns.has(command.name)) {
         cooldowns.set(command.name, new Discord.Collection());
     }
