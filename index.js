@@ -8,7 +8,7 @@ const client = new Discord.Client();
 const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
 const commandFlies = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-const DEV_MODE = true;
+const DEV_MODE = false;
 const PREFIX = DEV_MODE ? config.prefix_dev : config.prefix
     //prefix_dev
 for (const file of commandFlies) {
