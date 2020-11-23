@@ -19,6 +19,7 @@ module.exports = {
             "https://tenor.com/bjLL2.gif",
             "https://tenor.com/oY3a.gif",
             "https://tenor.com/pcXA.gif",
+            "https://www.youtube.com/watch?v=cbOEJNMOKdc"
         ];
 
         const phraseList = [
