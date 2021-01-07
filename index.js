@@ -50,28 +50,29 @@ client.on('message', message => {
         return;
     }
     if (command.guildOnly && message.channel.type !== 'text') return;
-    if (!cooldowns.has(command.name)) {
-        cooldowns.set(command.name, new Discord.Collection());
-    }
 
-    const now = Date.now();
-    const timestamps = cooldowns.get(command.name);
-    const cooldownAmount = (command.cooldown || 3) * 1000;
+    // if (!cooldowns.has(command.name)) {
+    //     cooldowns.set(command.name, new Discord.Collection());
+    // }
 
-    if (!timestamps.has(message.author.id)) {
-        timestamps.set(message.author.id, now);
-        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-    } else {
-        const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+    // const now = Date.now();
+    // const timestamps = cooldowns.get(command.name);
+    // const cooldownAmount = (command.cooldown || 3) * 1000;
 
-        if (now < expirationTime) {
-            const timeLeft = (expirationTime - now) / 1000;
-            return message.reply("Woa arrete de spam la ziz, tu pourras dans " + timeLeft);
-        }
+    // if (!timestamps.has(message.author.id)) {
+    //     timestamps.set(message.author.id, now);
+    //     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    // } else {
+    //     const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
-        timestamps.set(message.author.id, now);
-        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-    }
+    //     if (now < expirationTime) {
+    //         const timeLeft = (expirationTime - now) / 1000;
+    //         return message.reply("Woa arrete de spam la ziz, tu pourras dans " + timeLeft);
+    //     }
+
+    //     timestamps.set(message.author.id, now);
+    //     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    // }
     try {
         command.execute(client, api, config, message, args);
     } catch (error) {
