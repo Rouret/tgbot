@@ -7,10 +7,8 @@ module.exports = {
     theme: "fun",
     execute(client, api, config, message, args) {
         const allNames = allChamp.map(champ => champ.name);
-        switch (args.length) {
-            case 0:
-                message.delete()
-                    //return message.channel.send("Champions: " + allNames])
+        if(args.length===0){
+            message.delete()
                 const index = [utils.getRandom(0, allNames.length - 1)]
                 const current = allChamp[index]
                 return message.channel.send({
@@ -23,9 +21,10 @@ module.exports = {
                         description: current.tags.join(', '),
                     }
                 });
-            case 1:
-                message.channel.send("Go LoL enculé" + args[0])
         }
+
+        if(args.length===1 && message.mentions.members.first())return message.channel.send("Go LoL enculé " + args[0])
+        
 
 
     },

@@ -12,9 +12,6 @@ module.exports = {
         const avatarList = message.mentions.users.map(user => {
             return `L'avatar de ${user.username}, le suceur de lapin: ${user.displayAvatarURL()}`;
         });
-
-        // send the entire array of strings as a message
-        // by default, discord.js will `.join()` the array with `\n`
         return message.channel.send(avatarList);
     },
 };
